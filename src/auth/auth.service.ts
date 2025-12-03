@@ -26,7 +26,7 @@ export class AuthService {
             role
         }, {
             secret: process.env.JWT_ACCESS,
-            expiresIn: '7d'
+            expiresIn: '15m'
         })
         
         const refreshToken= this.jwtService.sign({

@@ -261,7 +261,6 @@ Connect to `/notifications` namespace for real-time notifications.
 
 ---
 
-
 ---
 
 ## 📁 Project Structure

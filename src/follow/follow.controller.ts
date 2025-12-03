@@ -5,7 +5,7 @@ import type { UserPayLoad } from 'src/common/interfaces/all-interfaces';
 import { JwtAuthGuard } from 'src/common/AuthGuard/JwtAuthGuard';
 import { GetFollowers } from './dto/GetFollowersPaginated';
 
-@Controller('users')
+@Controller('follows')
 export class FollowController {
     constructor(private readonly followService: FollowService) {}
 
@@ -33,7 +33,7 @@ export class FollowController {
 
 
     @UseGuards(JwtAuthGuard)
-    @Get('/followers')
+    @Get('/my-followers')
     getFollowers(@Query() query: GetFollowers, @CurrentUser() user: UserPayLoad) {
         return this.followService.getFollowers(query,user)
     }
