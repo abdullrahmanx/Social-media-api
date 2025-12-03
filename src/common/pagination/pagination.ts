@@ -11,7 +11,8 @@ export async function getPaginatedData(
         allowedSortFields?: string[],
         searchableFields?: string[],
         allowedFilters?: string[],
-        extraWhere?: Record<string,any>
+        extraWhere?: Record<string,any>,
+        include?: Record<string, any> 
     }
 ) {
     const {
@@ -26,7 +27,8 @@ export async function getPaginatedData(
         allowedSortFields= [],
         allowedFilters= [],
         searchableFields= [],
-        extraWhere= {}
+        extraWhere= {},
+        include= {}
     }= options
 
     const skip = (page - 1) * limit
@@ -73,13 +75,13 @@ export async function getPaginatedData(
     : whereParts.length === 1 ?
     whereParts[0]
     : {}
-
     const [data, total]= await prisma.$transaction([
         model.findMany({
             where,
             take: limit,
             skip,
-            orderBy: {[sortBy]: sortOrder}
+            orderBy: {[sortBy]: sortOrder},
+            include: include
         }),
         model.count({where})
     ])

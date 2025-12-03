@@ -23,6 +23,8 @@ export class ChatService {
         }
 
         
+
+        
         let uploadImage: Record<string, string>
         if (dto.membersId.length && dto.membersId.length > 1) {
             const users = await this.prisma.user.findMany({
@@ -92,7 +94,14 @@ export class ChatService {
                 allowedSortFields: ['createdAt','updatedAt','isGroup','name'],
                 searchableFields: ['name'],
                 allowedFilters: ['name','isGroup'],
-                extraWhere
+                extraWhere,
+                include: {
+                    lastMessage: {
+                        select: {
+                            content: true
+                        }
+                    }
+                }
             }
         )
         return chats
@@ -115,7 +124,7 @@ export class ChatService {
                     }
                 },
                 messages: {
-                    take: 20,
+                    take: 10,
                     orderBy: { createdAt: 'desc' }
                 }
             }

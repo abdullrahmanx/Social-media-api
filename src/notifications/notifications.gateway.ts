@@ -148,7 +148,9 @@ export class NotificationsGateway implements OnGatewayConnection, OnGatewayDisco
     
      emitToUser(userId: string, event: string, data: any) {
         const socket= this.userSockets.get(userId)
-        if(!socket) throw new WsException('Unauthorized')
+        if (!socket) {
+            return; 
+        }
         socket.forEach((socketId) => this.server.to(socketId).emit(event,data))    
     }
 

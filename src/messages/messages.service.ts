@@ -20,11 +20,11 @@ export class MessagesService {
 
 
     async createMessage(dto: CreateMessageDto,user: UserPayLoad, files?: Express.Multer.File[]) {
-
+        try {
         if(!dto.content && !files?.length) {
             throw new BadRequestException('At least one field is required')
         }
-          
+        console.log('yooooooooooo')
         const chat= await this.prisma.chat.findFirst({
             where: {
                 id: dto.chatId,
@@ -38,7 +38,7 @@ export class MessagesService {
                 members: true
             }
         })
-
+        
         if(!chat) {
             throw new NotFoundException('Chat not found')
         }
@@ -86,6 +86,15 @@ export class MessagesService {
                 }
             }
         })
+        await this.prisma.chat.update({
+            where: { id: dto.chatId },
+            data: { lastMessageId: message.id }
+        })
+
+
+
+
+        
          const recipients= chat.members
             .filter(member => member.userId !== user.id)
             .map(member => member.userId)
@@ -105,6 +114,10 @@ export class MessagesService {
             message: 'Message sent successfully',
             data: message
         }
+    }catch(err) {
+        console.log('Error>>>>>>',err)
+        throw new BadRequestException('Error')
+    }
     }
 
     async getMessages(chatId: string,query: PaginatedQueryDto,user: UserPayLoad) {
