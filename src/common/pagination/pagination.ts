@@ -80,7 +80,7 @@ export async function getPaginatedData(
             where,
             take: limit,
             skip,
-            orderBy: {[sortBy]: sortOrder},
+            orderBy: {[validSort]: sortOrder},
             include: include
         }),
         model.count({where})
