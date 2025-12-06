@@ -24,7 +24,6 @@ export class MessagesService {
         if(!dto.content && !files?.length) {
             throw new BadRequestException('At least one field is required')
         }
-        console.log('yooooooooooo')
         const chat= await this.prisma.chat.findFirst({
             where: {
                 id: dto.chatId,
@@ -115,7 +114,6 @@ export class MessagesService {
             data: message
         }
     }catch(err) {
-        console.log('Error>>>>>>',err)
         throw new BadRequestException('Error')
     }
     }
